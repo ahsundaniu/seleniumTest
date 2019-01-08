@@ -13,12 +13,14 @@ import org.testng.annotations.Test;
 
 import com.sundaniu.commonobject.UseBrowser;
 import com.sundaniu.pageobject.HomePageObject;
+import com.sundaniu.pagepath.TestProperties;
 
 public class SeleniumLoginTest {
-	
-	HomePageObject page=new HomePageObject();
-	UseBrowser browser = new UseBrowser();
 	WebDriver drivers;
+	HomePageObject page;
+	UseBrowser browser = new UseBrowser();
+	
+	TestProperties prpt=new TestProperties("src/property.properties");
 	String userName="111";
 	String passWord="111";
 	String name="Å£½´";
@@ -29,32 +31,41 @@ public class SeleniumLoginTest {
 	@Test
 	public void testLogin() {
 		//µÇÂ½
-		page.sendKeysUserName(drivers, userName);
+		page.input(prpt.getProperties("userName"), userName);
 		
-		page.sendKeysPassWord(drivers, passWord);
+		page.input(prpt.getProperties("passWord"), passWord);
 		
-		page.clickLoginButton(drivers);
+		page.click(prpt.getProperties("login"));
 		
 		//Ìí¼Ó
-		page.addStudent(drivers, name, age);
+		page.click(prpt.getProperties("addStudent"));
 		
-		//²éÑ¯Ìí¼Ó
-		page.queryName(drivers, name);
+		page.input(prpt.getProperties("name"), name);
 		
-		page.querySub(drivers);
+		page.input(prpt.getProperties("age"), age);
 		
-		page.querySex(drivers, 1);
+		page.click(prpt.getProperties("sub"));
+		//²éÑ¯
 		
-		page.querySub(drivers);
+		page.input(prpt.getProperties("queryName"), name);
+		
+		page.click(prpt.getProperties("querySub"));
 		
 		//ÐÞ¸Ä
-		page.eidtStudent(drivers, eidtname, eidtAge);
 		
-		//²éÑ¯
-		page.queryName(drivers, eidtname);
-		page.querySub(drivers);
+		page.click(prpt.getProperties("eidtStudent"));
+		
+		page.input(prpt.getProperties("name"), eidtname);
+		
+		page.input(prpt.getProperties("age"), eidtAge);
+		
+		page.click(prpt.getProperties("sub"));
+		
 		//É¾³ý
-		page.delectStudent(drivers);
+		page.click(prpt.getProperties("delectStudent"));
+		
+		page.alert();
+		
 		
 	}
 	
@@ -94,12 +105,14 @@ public class SeleniumLoginTest {
 	  @BeforeSuite
 	  public void beforeSuite() {
 	      drivers = browser.setupChrome("http://112.74.190.69/student/");
+	      page  =new HomePageObject(drivers);
 	      System.out.println("Before Suite success....");
 	  }
 
 	  @AfterSuite
 	  public void afterSuite() {
 	 //     browser.closeBrowser();
+		  drivers.close();
 	      System.out.println("After Suite success....");
 	  }
 	

@@ -14,96 +14,59 @@ import com.sundaniu.pagepath.PageElementPath;
  * @author sundaniu
  *
  */
-public class HomePageObject extends PageElementPath{
-
-	//输入账号
-	public void sendKeysUserName(WebDriver driver,String loginUserName){
-		WebElement userNameElement = driver.findElement(By.xpath(userName));
-		//输入账号
-		userNameElement.sendKeys(loginUserName);
-		
-	}
-	
-	public void sendKeysPassWord(WebDriver driver,String loginUserPass){
-		
-		WebElement passWordElement = driver.findElement(By.xpath(passWord));
-		//输入密码
-		passWordElement.sendKeys(loginUserPass);
-		
-	}
-	
-	//点击登陆按钮
-	public void clickLoginButton(WebDriver driver){
-		WebElement loginElement = driver.findElement(By.xpath(login));
-		
-		loginElement.click();
-		
-	}
-	
-	//添加
-	public void addStudent(WebDriver driver,String Studentname,String studentAge){
-		WebElement addStudentElement = driver.findElement(By.linkText(addStudent));
-		addStudentElement.click();
-		
-		
-		WebElement addNameElement = driver.findElement(By.xpath(addName));
-		addNameElement.sendKeys(Studentname);
-
-		WebElement addAgeElement = driver.findElement(By.xpath(addAge));
-		addAgeElement.sendKeys(studentAge);
-		
-		driver.findElement(By.xpath(sub)).click();
+public class HomePageObject {
+	WebDriver driver;
+	public HomePageObject(WebDriver browserDriver){
+		driver=browserDriver;
 		
 		
 	}
 	
-	//姓名查询
-	public void queryName(WebDriver driver,String studentName){
-		WebElement queryNameElement = driver.findElement(By.xpath(queryName));
-		queryNameElement.sendKeys(studentName);
+	//输入框输入
+	public void input(String element,String value){
+		//定位元素
+		WebElement findElement = driver.findElement(By.xpath(element));
+		//清空文本框内容
+		findElement.clear();
+		//输入内容
+		findElement.sendKeys(value);
 		
 	}
 	
-	//查询按钮
-	public void querySub(WebDriver driver){
-		driver.findElement(By.xpath(querySub)).click();
+	//单击按钮
+	public void click(String element){
+		//定位元素
+		WebElement findElement = driver.findElement(By.xpath(element));
+		//点击操作
+		findElement.click();
+		
+		
+	
 	}
 	
-	//性别查询
-	public void querySex(WebDriver driver,int userSex){
-		WebElement querySexElement = driver.findElement(By.xpath(querySex));
+	//多选框选择
+	public void select(String element,String text){
+		//定位元素
+		WebElement findElement = driver.findElement(By.xpath(element));
+		//创建Select对象
+		Select select=new Select(findElement);
+		//根据文本选择相应内容
+		select.selectByVisibleText(text);
 		
-		Select select=new Select(querySexElement);
-		select.selectByIndex(userSex);
-		
-		
-	}
-	
-	//修改
-	public void eidtStudent(WebDriver driver,String eidtname,String eidtAge){
-		
-		driver.findElement(By.linkText(eidtStudent)).click();
-		
-		WebElement addNameElement = driver.findElement(By.xpath(addName));
-		addNameElement.clear();
-		addNameElement.sendKeys(eidtname);
-
-		WebElement addAgeElement = driver.findElement(By.xpath(addAge));
-		addAgeElement.clear();
-		addAgeElement.sendKeys(eidtAge);
-		
-		driver.findElement(By.xpath(sub)).click();
 		
 	}
 	
+	//警告框
 	
-	//删除
-	
-	public void delectStudent(WebDriver driver){
-		driver.findElement(By.linkText(delectStudent)).click();
+	public void alert(){
+		//定位元素
 		
 		Alert alert = driver.switchTo().alert();
+		
 		alert.accept();
+		
+		
 	}
+	
 	
 }
